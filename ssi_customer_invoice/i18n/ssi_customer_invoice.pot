@@ -1,0 +1,1320 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ssi_customer_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__customer_invoice_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__customer_invoice_id
+msgid "# Customer Invoice"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__name
+msgid "# Document"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__account_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__account_id
+msgid "Account"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_type_view_form
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_form
+msgid "Accounting"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__journal_id
+msgid ""
+"Accounting journal in which the resulting accounting entry of this document "
+"will be posted."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:base.automation,name:ssi_customer_invoice.customer_invoice_open_2_done
+#: model:ir.actions.server,name:ssi_customer_invoice.customer_invoice_action_done
+msgid "Action Done"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_needaction
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:base.automation,name:ssi_customer_invoice.customer_invoice_done_2_open
+#: model:ir.actions.server,name:ssi_customer_invoice.customer_invoice_action_open
+msgid "Action Open"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__active
+msgid "Active"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__active_approval_ids
+msgid "Active Approvals"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__active_approver_partner_ids
+msgid "Active Partners"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__active_approver_user_ids
+msgid "Active Users"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_ids
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_exception_decoration
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_state
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_type_icon
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:res.groups,name:ssi_customer_invoice.customer_invoice_all_group
+msgid "All"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__allowed_contact_ids
+msgid "Allowed Contact"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__allowed_currency_ids
+msgid "Allowed Currencies"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__allowed_policy_template_ids
+msgid "Allowed Policy Templates"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__allowed_pricelist_ids
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__allowed_pricelist_ids
+msgid "Allowed Pricelists"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__allowed_product_ids
+msgid "Allowed Products"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__allowed_uom_ids
+msgid "Allowed UoMs"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__allowed_usage_ids
+msgid "Allowed Usages"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__analytic_account_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__analytic_account_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__analytic_account_id
+msgid "Analytic Account"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__analytic_account_id
+msgid ""
+"Analytic account used to track the cost of this document for analytic "
+"reporting purposes."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__approval_template_id
+msgid "Approval Configuration"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__approval_template_id
+msgid "Approval Template"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__approval_ids
+msgid "Approvals"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__approve_ok
+msgid ""
+"Approve policy\n"
+"\n"
+"* If active user can see and execute 'Approve' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__approved
+msgid "Approved"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_attachment_count
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__base_amount
+msgid "Base Amount"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__approve_ok
+msgid "Can Approve"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__cancel_ok
+msgid "Can Cancel"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__confirm_ok
+msgid "Can Confirm"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__done_ok
+msgid "Can Finished"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__manual_number_ok
+msgid "Can Input Manual Document Number"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__reject_ok
+msgid "Can Reject"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__restart_ok
+msgid "Can Restart"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__restart_approval_ok
+msgid "Can Restart Approval"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__open_ok
+msgid "Can Start"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__cancel_reason_id
+msgid "Cancel Reason"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__cancel_ok
+msgid ""
+"Cancel policy\n"
+"\n"
+"* If active user can see and execute 'Cancel' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__code
+msgid "Code"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__company_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__company_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__company_id
+#: model:res.groups,name:ssi_customer_invoice.customer_invoice_company_group
+msgid "Company"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__company_currency_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__company_currency_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__company_currency_id
+msgid "Company Currency"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__company_partner_id
+msgid "Company Partner"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:res.groups,name:ssi_customer_invoice.customer_invoice_company_child_group
+msgid "Company and All Child Companies"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__company_id
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_line__company_id
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_tax__company_id
+msgid ""
+"Company that own the document\n"
+"\n"
+"* Automatically filled with user's company.\n"
+"  Default company can be changed"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_form
+msgid "Compute Tax"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__confirm_ok
+msgid ""
+"Confirm policy\n"
+"\n"
+"* If active user can see and execute 'Confirm' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__contact_partner_id
+msgid "Contact"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.actions.act_window,help:ssi_customer_invoice.customer_invoice_action
+msgid "Create a customer invoice"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__create_uid
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__create_uid
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__create_uid
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__create_date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__create_date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__create_date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__currency_ids
+msgid "Currencies"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__allowed_currency_ids
+msgid ""
+"Currencies that may be selected on this document, determined by the currency"
+" selection method configured on the selected Type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__currency_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__currency_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_type_view_form
+msgid "Currency Configuration"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__currency_domain
+msgid "Currency Domain"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__currency_python_code
+msgid "Currency Python Code"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__currency_selection_method
+msgid "Currency Selection Method"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__currency_id
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_line__currency_id
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_tax__currency_id
+msgid "Currency used to express every monetary amount on this document."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__customer_document_number
+msgid "Customer Document Number"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model,name:ssi_customer_invoice.model_customer_invoice
+#: model:ir.module.category,name:ssi_customer_invoice.customer_invoice_data_ownership_module_category
+#: model:ir.module.category,name:ssi_customer_invoice.customer_invoice_workflow_module_category
+#: model:ir.ui.menu,name:ssi_customer_invoice.customer_invoice_menu
+msgid "Customer Invoice"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model,name:ssi_customer_invoice.model_customer_invoice_line
+msgid "Customer Invoice - Line"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model,name:ssi_customer_invoice.model_customer_invoice_tax
+msgid "Customer Invoice - Tax"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model,name:ssi_customer_invoice.model_customer_invoice_type
+#: model:res.groups,name:ssi_customer_invoice.customer_invoice_type_group
+msgid "Customer Invoice Type"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.actions.act_window,name:ssi_customer_invoice.customer_invoice_type_action
+#: model:ir.ui.menu,name:ssi_customer_invoice.customer_invoice_type_menu
+msgid "Customer Invoice Types"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.actions.act_window,name:ssi_customer_invoice.customer_invoice_action
+msgid "Customer Invoices"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__type_id
+msgid ""
+"Customer invoice type that determines the default journal, receivable "
+"account, and the allowed currencies/pricelists for this document."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.actions.act_window,help:ssi_customer_invoice.customer_invoice_action
+msgid "Customer invoices register sales invoices issued to customers."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__date
+msgid "Date"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__date_due
+msgid "Date Due"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__journal_id
+msgid "Default journal used when posting a customer invoice of this type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__receivable_account_id
+msgid ""
+"Default receivable account used when posting a customer invoice of this "
+"type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__name
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__name
+msgid "Description"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_form
+msgid "Detail"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__display_name
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__display_name
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__display_name
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__currency_selection_method__domain
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__pricelist_selection_method__domain
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__product_selection_method__domain
+msgid "Domain"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__pricelist_domain
+msgid ""
+"Domain expression evaluated against product.pricelist to determine the "
+"allowed pricelists. Used when Pricelist Selection Method = Domain."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__product_domain
+msgid ""
+"Domain expression evaluated against product.product to determine the allowed"
+" products. Used when Product Selection Method = Domain."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__currency_domain
+msgid ""
+"Domain expression evaluated against res.currency to determine the allowed "
+"currencies. Used when Currency Selection Method = Domain."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__done_ok
+msgid ""
+"Done policy\n"
+"\n"
+"* If active user can see and execute 'Done' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__duration_id
+msgid "Duration"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_follower_ids
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_channel_ids
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_channel_ids
+msgid "Followers (Channels)"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_partner_ids
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__activity_type_icon
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__id
+msgid "ID"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_exception_icon
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__activity_exception_icon
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__message_needaction
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__message_unread
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__message_needaction
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__message_has_error
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_is_follower
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__journal_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__account_move_line_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__move_line_id
+msgid "Journal Item"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__move_id
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_line__move_id
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_tax__move_id
+msgid ""
+"Journal entry generated when this document is opened. Left empty for "
+"documents without detail lines, which move directly to Paid without waiting "
+"for reconciliation."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__receivable_move_line_id
+msgid ""
+"Journal item on the receivable account created together with ``move_id``. "
+"Its reconciliation status drives the automatic Unpaid/Paid transition."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice____last_update
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line____last_update
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax____last_update
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__write_uid
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__write_uid
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__write_uid
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__write_date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__write_date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__write_date
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_main_attachment_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__manual
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__currency_selection_method__manual
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__pricelist_selection_method__manual
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__product_selection_method__manual
+msgid "Manual"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__manual_number_ok
+msgid ""
+"Manual number assignment policy\n"
+"\n"
+"* If active user can edit document number"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__currency_ids
+msgid ""
+"Manually selected list of allowed currencies. Used when Currency Selection "
+"Method = Manual."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__pricelist_ids
+msgid ""
+"Manually selected list of allowed pricelists. Used when Pricelist Selection "
+"Method = Manual."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__product_ids
+msgid ""
+"Manually selected list of allowed products. Used when Product Selection "
+"Method = Manual."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__active
+msgid ""
+"Master data status\n"
+"\n"
+"* Inactive data can not be selected when creating new transaction\n"
+"* Transaction with inactive master data can still be viewed\n"
+"* Set master data as inactive if master data no longger needed,\n"
+"but master data already used on transaction"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__code
+msgid ""
+"Master data unique identifier.\n"
+"\n"
+"* Fill with '/' if You do not need unique identifier\n"
+"* Click 'Generate Code' button to automatically assign code.\n"
+"  Sequence template mush be set to perform this action\n"
+"  Only master data with '/' code will be assign automatic code"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_has_error
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_ids
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__currency_selection_method
+msgid ""
+"Method used to determine which currencies can be selected on a customer "
+"invoice of this type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__pricelist_selection_method
+msgid ""
+"Method used to determine which pricelists can be selected on a customer "
+"invoice of this type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__product_selection_method
+msgid ""
+"Method used to determine which products can be selected on a customer "
+"invoice of this type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__move_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__move_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__move_id
+msgid "Move"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__my_activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__name
+msgid "Name"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__need_validation
+msgid "Need Validation"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_date_deadline
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_summary
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_type_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__next_approval_ids
+msgid "Next Approvals"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__note
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__note
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__note
+msgid "Note"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_needaction_counter
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_has_error_counter
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__message_needaction_counter
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__message_has_error_counter
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__message_unread_counter
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice__state__done
+msgid "Paid"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__partner_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__partner_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__policy_template_id
+msgid "Policy Template"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__amount_realized
+msgid ""
+"Portion of the total amount already settled, derived from the receivable "
+"journal item's residual amount."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__amount_residual
+msgid ""
+"Portion of the total amount still outstanding on the receivable journal "
+"item."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__price_subtotal
+msgid "Price Subtotal"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__price_unit
+msgid "Price Unit"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__pricelist_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__pricelist_id
+msgid "Pricelist"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_type_view_form
+msgid "Pricelist Configuration"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__pricelist_domain
+msgid "Pricelist Domain"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__pricelist_python_code
+msgid "Pricelist Python Code"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__pricelist_selection_method
+msgid "Pricelist Selection Method"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__pricelist_id
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_line__pricelist_id
+msgid ""
+"Pricelist used to determine the customer price of the products sold on this "
+"document."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__pricelist_ids
+msgid "Pricelists"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__allowed_pricelist_ids
+msgid ""
+"Pricelists that may be selected on this document, determined by the "
+"pricelist selection method configured on the selected Type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__product_id
+msgid "Product"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__product_category_id
+msgid "Product Category"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_type_view_form
+msgid "Product Configuration"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__product_domain
+msgid "Product Domain"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__product_python_code
+msgid "Product Python Code"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__product_selection_method
+msgid "Product Selection Method"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__line_ids
+msgid ""
+"Product/service detail lines being invoiced on this document. Used to "
+"compute the untaxed amount and, together with the applicable taxes, the tax "
+"lines."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__product_ids
+msgid "Products"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__allowed_product_ids
+msgid ""
+"Products that may be selected on the detail lines of this document, "
+"determined by the product selection method configured on the selected Type."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__currency_selection_method__code
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__pricelist_selection_method__code
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice_type__product_selection_method__code
+msgid "Python Code"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__pricelist_python_code
+msgid ""
+"Python code that must set the `result` variable to a recordset of "
+"product.pricelist. Used when Pricelist Selection Method = Python Code."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__product_python_code
+msgid ""
+"Python code that must set the `result` variable to a recordset of "
+"product.product. Used when Product Selection Method = Python Code."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__currency_python_code
+msgid ""
+"Python code that must set the `result` variable to a recordset of "
+"res.currency. Used when Currency Selection Method = Python Code."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__realized
+msgid "Realized"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_realized
+msgid "Realized Amount"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__receivable_account_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__receivable_account_id
+msgid "Receivable Account"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__receivable_move_line_id
+msgid "Receivable Move Line"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__receivable_account_id
+msgid ""
+"Receivable account debited for the total amount owed by the customer when "
+"this document is posted."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__customer_document_number
+msgid ""
+"Reference number of the original document requested by the customer (e.g. "
+"their own purchase order number), used to cross-check against the customer's"
+" own records."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__reject_ok
+msgid ""
+"Reject policy\n"
+"\n"
+"* If active user can see and execute 'Reject' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__rejected
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice__state__reject
+msgid "Rejected"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_residual
+msgid "Residual Amount"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__user_id
+msgid "Responsible"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__activity_user_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__restart_approval_ok
+msgid ""
+"Restart approval policy\n"
+"\n"
+"* If active user can see and execute 'Restart Approval' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__restart_ok
+msgid ""
+"Restart policy\n"
+"\n"
+"* If active user can see and execute 'Restart' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__reviewer_id
+msgid "Reviewer"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_line__product_category_id
+msgid "Select category for the current product"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__standard_price_subtotal
+msgid "Standard Price Subtotal"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__standard_price_subtotal_diff
+msgid "Standard Price Subtotal Diff."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__standard_price_unit
+msgid "Standard Price Unit"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__standard_price_unit_diff
+msgid "Standard Price Unit Diff."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__open_ok
+msgid ""
+"Start policy\n"
+"\n"
+"* If active user can see and execute 'Start' button"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__state
+msgid "State"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__activity_state
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__amount_untaxed
+msgid "Sum of the price subtotal of every detail line."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__amount_tax
+msgid "Sum of the tax amount of every tax line."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_tax
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__price_tax
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__tax_id
+msgid "Tax"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__tax_amount
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_form
+msgid "Tax Amount"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__tax_ids
+msgid ""
+"Tax lines computed automatically from the detail lines (or entered "
+"manually)."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__tax_ids
+msgid "Tax(es)"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__tax_ids
+msgid "Taxes"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__realized
+msgid ""
+"Technical flag mirroring whether the receivable journal item has been fully "
+"reconciled. Drives the automatic done/open state transition through "
+"base.automation."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_total
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__price_total
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_tree
+msgid "Total"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__name
+msgid ""
+"Transaction/document number\n"
+"\n"
+"* Unique indentifer of transaction\n"
+"* Leave '/' to automatically generate number\n"
+"* Change '/' into any number/identifier to manually assign number.\n"
+"  Manual number assignment can be done in 'Draft' state\n"
+"  Only user with 'Can Manualy Assign Number' policy can manually assign number.\n"
+"* Transaction with number other than '/' can not be deleted."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__type_id
+msgid "Type"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__activity_exception_decoration
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice__state__open
+msgid "Unpaid"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_unread
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__message_unread_counter
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_untaxed
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_form
+msgid "Untaxed Amount"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__amount_total
+msgid "Untaxed amount plus tax amount."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__uom_id
+msgid "UoM"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__uom_quantity
+msgid "UoM Quantity"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__usage_id
+msgid "Usage"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:res.groups,name:ssi_customer_invoice.customer_invoice_user_group
+msgid "User"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__user_id
+msgid ""
+"User that responsible for document\n"
+"\n"
+"* Create user can be different with responsible user\n"
+"* Automatically filled with user that initiate document creation.\n"
+"  Default responsible can be changed."
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__reviewer_id
+msgid ""
+"User that responsible to review document\n"
+"\n"
+"* Unless it configured to approve reviewer does not equal to approver"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__active_approver_user_ids
+msgid "Users that can approve/reject document"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:res.groups,name:ssi_customer_invoice.customer_invoice_validator_group
+msgid "Validator"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:res.groups,name:ssi_customer_invoice.customer_invoice_viewer_group
+msgid "Viewer"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields.selection,name:ssi_customer_invoice.selection__customer_invoice__state__confirm
+msgid "Waiting for Approval"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__website_message_ids
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_type__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__website_message_ids
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice_type__website_message_ids
+msgid "Website communication history"
+msgstr ""
