@@ -1,0 +1,50 @@
+# Copyright 2026 OpenSynergy Indonesia
+# Copyright 2026 PT. Simetri Sinergi Indonesia
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+
+{
+    "name": "Customer Invoice",
+    "version": "14.0.1.0.0",
+    "website": "https://simetri-sinergi.id",
+    "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
+    "contributors": [
+        "Andhitia Rama <andhitia.r@gmail.com>",
+    ],
+    "license": "AGPL-3",
+    "installable": True,
+    "application": False,
+    "depends": [
+        "ssi_financial_accounting",
+        "ssi_master_data_mixin",
+        "ssi_transaction_confirm_mixin",
+        "ssi_transaction_open_mixin",
+        "ssi_transaction_done_mixin",
+        "ssi_transaction_cancel_mixin",
+        "ssi_transaction_date_due_mixin",
+        "ssi_transaction_partner_mixin",
+        "ssi_company_currency_mixin",
+        "ssi_m2o_configurator_mixin",
+        "ssi_product_line_account_mixin",
+        "ssi_accounting_entry_mixin",
+        "ssi_transaction_pricelist_mixin",
+        "base_automation",
+        "web_tour",
+    ],
+    "data": [
+        "security/ir_module_category/customer_invoice.xml",
+        "security/res_groups/customer_invoice.xml",
+        "security/res_groups/customer_invoice_type.xml",
+        "security/ir_model_access/customer_invoice.xml",
+        "security/ir_model_access/customer_invoice_type.xml",
+        "security/ir_rule/customer_invoice.xml",
+        "ir_sequence/customer_invoice.xml",
+        "sequence_template/customer_invoice.xml",
+        "approval_template/customer_invoice.xml",
+        "policy_template/customer_invoice.xml",
+        "data/ir_actions_server.xml",
+        "data/base_automation.xml",
+        "views/customer_invoice.xml",
+        "views/customer_invoice_type_views.xml",
+    ],
+    "demo": [],
+}
