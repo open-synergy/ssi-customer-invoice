@@ -17,7 +17,11 @@ Export & manajemen customer invoice
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[ssi_customer_invoice](ssi_customer_invoice/) | 14.0.1.0.0 |  | Customer Invoice
 
 [//]: # (end addons)
 
