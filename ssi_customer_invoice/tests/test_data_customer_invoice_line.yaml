@@ -1,0 +1,351 @@
+setup:
+  steps:
+    - step: "Get receivable account type"
+      action: "ref"
+      xml_id: "account.data_account_type_receivable"
+      save_as: "receivable_acc_type"
+
+    - step: "Get revenue account type"
+      action: "ref"
+      xml_id: "account.data_account_type_revenue"
+      save_as: "income_acc_type"
+
+    # `setup:` replays before every scenario in the same transaction (no
+    # rollback in between), so a fixed `code` would collide with the
+    # previous scenario's record on the 2nd+ replay. Generate a fresh,
+    # never-colliding code on each replay.
+    - step: "Create receivable account"
+      action: "create"
+      model: "account.account"
+      save_as: "account"
+      values:
+        code: "EVAL: 'CILR%d' % env['account.account'].search_count([])"
+        name: "Test Customer Invoice Line Receivable"
+        user_type_id: "REC: receivable_acc_type.id"
+        reconcile: true
+
+    - step: "Create line income account"
+      action: "create"
+      model: "account.account"
+      save_as: "line_account"
+      values:
+        code: "EVAL: 'CILE%d' % env['account.account'].search_count([])"
+        name: "Test Customer Invoice Line Income"
+        user_type_id: "REC: income_acc_type.id"
+
+    - step: "Create sale journal"
+      action: "create"
+      model: "account.journal"
+      save_as: "journal"
+      values:
+        name:
+          "EVAL: 'Test Customer Invoice Line Sale Journal %d' %
+          env['account.journal'].search_count([])"
+        code: "EVAL: 'CILJ%d' % env['account.journal'].search_count([])"
+        type: "sale"
+
+    - step: "Create customer invoice type"
+      action: "create"
+      model: "customer_invoice_type"
+      save_as: "type"
+      values:
+        name: "Test Customer Invoice Line Type"
+        code: "/"
+        journal_id: "REC: journal.id"
+        receivable_account_id: "REC: account.id"
+
+    - step: "Create customer partner"
+      action: "create"
+      model: "res.partner"
+      save_as: "customer"
+      values:
+        name: "Test Customer Invoice Line Partner"
+        is_company: true
+
+    - step: "Create a billable product"
+      action: "create"
+      model: "product.product"
+      save_as: "product"
+      values:
+        name: "Test Customer Invoice Line Product"
+
+    # `account_id` on the tax's own "tax" repartition line is what ends up
+    # populating `customer_invoice.tax.account_id` (required=True) when
+    # `_recompute_standard_tax()` builds the tax line automatically --
+    # without it, `compute_all()` returns no account and the auto-created
+    # `customer_invoice.tax` row violates the NOT NULL constraint.
+    - step: "Create an 11% sale tax"
+      action: "create"
+      model: "account.tax"
+      save_as: "tax11"
+      values:
+        name:
+          "EVAL: 'Test Customer Invoice Line VAT 11pct %d' %
+          env['account.tax'].search_count([])"
+        amount_type: "percent"
+        amount: 11.0
+        type_tax_use: "sale"
+        invoice_repartition_line_ids:
+          - - 0
+            - 0
+            - factor_percent: 100
+              repartition_type: "base"
+          - - 0
+            - 0
+            - factor_percent: 100
+              repartition_type: "tax"
+              account_id: "REC: line_account.id"
+        refund_repartition_line_ids:
+          - - 0
+            - 0
+            - factor_percent: 100
+              repartition_type: "base"
+          - - 0
+            - 0
+            - factor_percent: 100
+              repartition_type: "tax"
+              account_id: "REC: line_account.id"
+
+    - step: "Create customer invoice"
+      action: "create"
+      model: "customer_invoice"
+      save_as: "invoice"
+      values:
+        type_id: "REC: type.id"
+        partner_id: "REC: customer.id"
+        date: 2024-01-15
+        date_due: 2024-02-15
+        currency_id: "REF: base.USD"
+        pricelist_id: "REF: product.list0"
+        journal_id: "REC: journal.id"
+        receivable_account_id: "REC: account.id"
+
+scenarios:
+  - name: "Unlinking a detail line reduces amount_untaxed by its subtotal"
+    steps:
+      - step: "Create first detail line"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line1"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          product_id: "REC: product.id"
+          name: "Line 1"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 200000.0
+
+      - step: "Create second detail line"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line2"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          product_id: "REC: product.id"
+          name: "Line 2"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 300000.0
+
+      - step: "Assert untaxed amount is the sum of both lines"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          amount_untaxed:
+            type: "value"
+            expected: 500000.0
+
+      - step: "Unlink the first line"
+        action: "unlink"
+        target: "line1"
+
+      - step: "Assert untaxed amount decreased by the unlinked line's subtotal"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          amount_untaxed:
+            type: "value"
+            expected: 300000.0
+
+  - name: "Detail line mirrors date and currency from its header"
+    steps:
+      - step: "Create a detail line"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          product_id: "REC: product.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 100000.0
+
+      - step: "Assert line date and currency equal the header's"
+        action: "assert"
+        target: "line"
+        asserts:
+          date:
+            type: "value"
+            expected: 2024-01-15
+          currency_id:
+            type: "m2o"
+            expected_xml_id: "base.USD"
+
+  - name: "Deleting a customer invoice cascades to its detail and tax lines"
+    steps:
+      - step: "Create a detail line"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          product_id: "REC: product.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 100000.0
+
+      - step: "Create a tax line"
+        action: "create"
+        model: "customer_invoice.tax"
+        save_as: "tax_line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Tax"
+          tax_id: "REC: tax11.id"
+          account_id: "REC: line_account.id"
+          base_amount: 100000.0
+          tax_amount: 11000.0
+
+      - step: "Delete the customer invoice"
+        action: "unlink"
+        target: "invoice"
+
+      - step: "Detail line no longer exists"
+        action: "search"
+        model: "customer_invoice.line"
+        domain:
+          - ["id", "=", "REC: line.id"]
+        save_as: "found_line"
+        expect_count: 0
+
+      - step: "Tax line no longer exists"
+        action: "search"
+        model: "customer_invoice.tax"
+        domain:
+          - ["id", "=", "REC: tax_line.id"]
+        save_as: "found_tax"
+        expect_count: 0
+
+  - name: "Confirming an invoice with taxed lines computes tax lines automatically"
+    steps:
+      - step: "Create a taxed detail line"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          product_id: "REC: product.id"
+          name: "Taxed Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 100000.0
+          tax_ids:
+            - - 6
+              - 0
+              - - "REC: tax11.id"
+
+      - step: "Confirm the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Assert tax lines were computed"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          tax_ids:
+            type: "o2m"
+            check: "count"
+            expected_count: 1
+
+  - name: "Compute allowed_product_ids from type's manual product list"
+    steps:
+      - step: "Create a second customer invoice type with a manual product allow-list"
+        action: "create"
+        model: "customer_invoice_type"
+        save_as: "manual_product_type"
+        values:
+          name: "Test Customer Invoice Line Type Manual Product"
+          code: "/"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+          product_selection_method: "manual"
+          product_ids:
+            - - 6
+              - 0
+              - - "REC: product.id"
+
+      - step: "Create customer invoice using that type"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "manual_product_invoice"
+        values:
+          type_id: "REC: manual_product_type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Assert allowed_product_ids is exactly the manual list"
+        action: "assert"
+        target: "manual_product_invoice"
+        asserts:
+          allowed_product_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: product"
+
+  - name: "Creating a detail line is rejected for a user without the User group"
+    steps:
+      - step: "Create a plain internal user without customer_invoice_user_group"
+        action: "create"
+        model: "res.users"
+        save_as: "plain_user"
+        values:
+          name: "Customer Invoice Line Plain User"
+          login:
+            "EVAL: 'customer_invoice_line_plain_user_%d' %
+            env['res.users'].search_count([])"
+          groups_id:
+            - - 6
+              - 0
+              - - "REF: base.group_user"
+
+      - step: "Create as plain user must be rejected"
+        action: "create"
+        model: "customer_invoice.line"
+        as_user: "plain_user"
+        expect_error:
+          type: "AccessError"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          product_id: "REC: product.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 100000.0

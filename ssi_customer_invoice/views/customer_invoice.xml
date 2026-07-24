@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 OpenSynergy Indonesia
+     Copyright 2026 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="customer_invoice_view_search" model="ir.ui.view">
+    <field name="name">customer_invoice - search</field>
+    <field name="model">customer_invoice</field>
+    <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_search"
+        />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="partner_id" />
+                <field name="type_id" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="customer_invoice_view_tree" model="ir.ui.view">
+    <field name="name">customer_invoice - tree</field>
+    <field name="model">customer_invoice</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_tree" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="partner_id" />
+                <field name="type_id" optional="hide" />
+                <field name="date" />
+                <field name="date_due" />
+                <field name="amount_total" sum="Total" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="customer_invoice_view_form" model="ir.ui.view">
+    <field name="name">customer_invoice - form</field>
+    <field name="model">customer_invoice</field>
+    <field name="inherit_id" ref="ssi_transaction_mixin.mixin_transaction_view_form" />
+    <field name="mode">primary</field>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//group[@name='header_right']" position="inside">
+                <field name="type_id" />
+                <field name="partner_id" />
+                <field name="customer_document_number" />
+                <field name="date" />
+                <field name="duration_id" />
+                <field name="date_due" />
+            </xpath>
+            <xpath expr="//group[@name='header_center']" position="inside">
+                <field name="currency_id" />
+                <field name="pricelist_id" />
+                <field name="journal_id" />
+                <field name="receivable_account_id" />
+                <field name="analytic_account_id" />
+            </xpath>
+            <xpath expr="//page[1]" position="before">
+                <page name="detail" string="Detail">
+                    <field name="allowed_product_ids" invisible="1" />
+                    <field name="line_ids">
+                        <tree editable="top">
+                            <field name="currency_id" invisible="1" />
+                            <field
+                                    name="product_id"
+                                    domain="[('id','in',parent.allowed_product_ids)]"
+                                />
+                            <field name="name" />
+                            <field name="usage_id" />
+                            <field name="account_id" />
+                            <field name="analytic_account_id" />
+                            <field name="uom_id" />
+                            <field name="uom_quantity" />
+                            <field name="price_unit" />
+                            <field name="tax_ids" widget="many2many_tags" />
+                            <field name="price_subtotal" sum="Untaxed Amount" />
+                        </tree>
+                    </field>
+                    <div class="oe_right">
+                        <button
+                                name="action_compute_tax"
+                                type="object"
+                                string="Compute Tax"
+                                class="btn-secondary"
+                                attrs="{'invisible': [('state','!=','draft')]}"
+                            />
+                    </div>
+                    <field name="tax_ids">
+                        <tree editable="top">
+                            <field name="currency_id" invisible="1" />
+                            <field name="name" />
+                            <field name="tax_id" />
+                            <field name="account_id" />
+                            <field name="base_amount" />
+                            <field name="tax_amount" sum="Tax Amount" />
+                            <field name="manual" />
+                        </tree>
+                    </field>
+                    <group name="detail_amount" col="2">
+                        <field name="amount_untaxed" />
+                        <field name="amount_tax" />
+                        <field name="amount_total" />
+                    </group>
+                </page>
+                <page name="accounting" string="Accounting">
+                    <group name="accounting_1" colspan="4" col="2">
+                        <group name="accounting_1_1" colspan="1" col="2">
+                            <field name="move_id" />
+                            <field name="receivable_move_line_id" />
+                            <field name="realized" />
+                        </group>
+                        <group name="accounting_1_2" colspan="1" col="2">
+                            <field name="amount_realized" />
+                            <field name="amount_residual" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="customer_invoice_action" model="ir.actions.act_window">
+    <field name="name">Customer Invoices</field>
+    <field name="res_model">customer_invoice</field>
+    <field name="view_mode">tree,form</field>
+    <field name="view_id" ref="customer_invoice_view_tree" />
+    <field name="search_view_id" ref="customer_invoice_view_search" />
+    <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+            Create a customer invoice
+        </p><p>
+            Customer invoices register sales invoices issued to customers.
+        </p>
+    </field>
+</record>
+
+<menuitem
+        id="customer_invoice_menu"
+        name="Customer Invoice"
+        parent="ssi_financial_accounting.menu_account_receivable"
+        action="customer_invoice_action"
+        groups="customer_invoice_viewer_group"
+        sequence="5"
+    />
+</odoo>
