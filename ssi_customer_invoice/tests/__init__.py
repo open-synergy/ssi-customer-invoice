@@ -5,3 +5,5 @@
 from . import test_customer_invoice
 from . import test_customer_invoice_line
 from . import test_customer_invoice_type
+from . import test_ui_customer_invoice
+from . import test_ui_customer_invoice_type

@@ -45,6 +45,7 @@
         "data/base_automation.xml",
         "views/customer_invoice.xml",
         "views/customer_invoice_type_views.xml",
+        "views/assets.xml",
     ],
     "demo": [],
 }
