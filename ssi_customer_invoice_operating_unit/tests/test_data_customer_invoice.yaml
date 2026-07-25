@@ -1,0 +1,320 @@
+options:
+  auto_refresh: true
+
+setup:
+  steps:
+    - step: "Get receivable account type"
+      action: "ref"
+      xml_id: "account.data_account_type_receivable"
+      save_as: "receivable_acc_type"
+
+    - step: "Get revenue account type"
+      action: "ref"
+      xml_id: "account.data_account_type_revenue"
+      save_as: "income_acc_type"
+
+    - step: "Create receivable account"
+      action: "create"
+      model: "account.account"
+      save_as: "account"
+      values:
+        code: "EVAL: 'CIOU%d' % env['account.account'].search_count([])"
+        name: "Test Customer Invoice OU Receivable"
+        user_type_id: "REC: receivable_acc_type.id"
+        reconcile: true
+
+    - step: "Create line income account"
+      action: "create"
+      model: "account.account"
+      save_as: "line_account"
+      values:
+        code: "EVAL: 'CIOUHE%d' % env['account.account'].search_count([])"
+        name: "Test Customer Invoice OU Header Income"
+        user_type_id: "REC: income_acc_type.id"
+
+    - step: "Create sale journal without any operating unit restriction"
+      action: "create"
+      model: "account.journal"
+      save_as: "journal"
+      values:
+        name:
+          "EVAL: 'Test Customer Invoice OU Sale Journal %d' %
+          env['account.journal'].search_count([])"
+        code: "EVAL: 'CIOUJ%d' % env['account.journal'].search_count([])"
+        type: "sale"
+
+    - step: "Create customer invoice type"
+      action: "create"
+      model: "customer_invoice_type"
+      save_as: "type"
+      values:
+        name: "Test Customer Invoice OU Type"
+        code: "/"
+        journal_id: "REC: journal.id"
+        receivable_account_id: "REC: account.id"
+
+    - step: "Create customer partner"
+      action: "create"
+      model: "res.partner"
+      save_as: "customer"
+      values:
+        name: "Test Customer Invoice OU Partner"
+        is_company: true
+
+    - step: "Get the main operating unit"
+      action: "ref"
+      xml_id: "operating_unit.main_operating_unit"
+      save_as: "main_ou"
+
+scenarios:
+  - name: "Create customer invoice with an operating unit stores the field"
+    steps:
+      - step: "Create customer invoice with the main operating unit"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          operating_unit_id: "REC: main_ou.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Assert operating_unit_id is the main operating unit"
+        action: "assert"
+        target: "invoice"
+        asserts:
+          operating_unit_id:
+            type: "m2o"
+            expected_xml_id: "operating_unit.main_operating_unit"
+
+  - name:
+      "Confirm then approve then open propagates the operating unit to the accounting
+      entry"
+    steps:
+      - step: "Create customer invoice with the main operating unit"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          operating_unit_id: "REC: main_ou.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line so the invoice has something to post"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 150000.0
+
+      - step: "Confirm the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve the invoice, which opens it and posts the journal entry"
+        action: "call"
+        target: "invoice"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "The generated move carries the same operating unit as the invoice"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          move_id.operating_unit_id:
+            type: "m2o"
+            expected_xml_id: "operating_unit.main_operating_unit"
+          receivable_move_line_id.operating_unit_id:
+            type: "m2o"
+            expected_xml_id: "operating_unit.main_operating_unit"
+
+  - name: "Opening an invoice without an operating unit leaves the move without one"
+    steps:
+      - step: "Create customer invoice without an operating unit"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          operating_unit_id: false
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line so the invoice has something to post"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 90000.0
+
+      - step: "Confirm the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve the invoice, which opens it and posts the journal entry"
+        action: "call"
+        target: "invoice"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "The generated move has no operating unit -- the default was not applied"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          move_id.operating_unit_id:
+            type: "value"
+            operator: "is_falsy"
+
+  - name:
+      "Creating an invoice whose journal does not allow the chosen operating unit is
+      rejected"
+    steps:
+      - step: "Create a second operating unit"
+        action: "create"
+        model: "operating.unit"
+        save_as: "other_ou"
+        values:
+          name: "Test Customer Invoice OU B"
+          code: "EVAL: 'CIOUB%d' % env['operating.unit'].search_count([])"
+
+      - step: "Create a journal restricted to the second operating unit"
+        action: "create"
+        model: "account.journal"
+        save_as: "restricted_journal"
+        values:
+          name:
+            "EVAL: 'Test Customer Invoice OU Restricted Journal %d' %
+            env['account.journal'].search_count([])"
+          code: "EVAL: 'CIOURJ%d' % env['account.journal'].search_count([])"
+          type: "sale"
+          operating_unit_ids:
+            - - 6
+              - 0
+              - - "REC: other_ou.id"
+
+      - step:
+          "Create customer invoice with the main OU on the OU-B-restricted journal must
+          be rejected"
+        action: "create"
+        model: "customer_invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          operating_unit_id: "REC: main_ou.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: restricted_journal.id"
+          receivable_account_id: "REC: account.id"
+        expect_error:
+          type: "UserError"
+          message_contains: "is not allowed for operating unit"
+
+  - name:
+      "An internal user in the OU group without an assigned operating unit cannot read
+      or write an invoice owned by another operating unit"
+    steps:
+      - step: "Create customer invoice with the main operating unit as admin"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        as_user: "base.user_admin"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          operating_unit_id: "REC: main_ou.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create an OU-scoped internal user with no operating unit assigned"
+        action: "create"
+        model: "res.users"
+        save_as: "ou_user"
+        values:
+          name: "Customer Invoice OU User"
+          login:
+            "EVAL: 'customer_invoice_ou_user_%d' % env['res.users'].search_count([])"
+          groups_id:
+            - - 6
+              - 0
+              - - "REF: base.group_user"
+                - "REF: ssi_customer_invoice.customer_invoice_user_group"
+                - "REF: ssi_customer_invoice_operating_unit.customer_invoice_ou_group"
+          assigned_operating_unit_ids:
+            - - 6
+              - 0
+              - []
+
+      - step: "Reading the invoice as that user raises AccessError"
+        action: "call"
+        target: "invoice"
+        method: "read"
+        args:
+          - - "name"
+        as_user: "ou_user"
+        expect_error:
+          type: "AccessError"
+
+      - step: "Writing the invoice as that user raises AccessError"
+        action: "write"
+        target: "invoice"
+        as_user: "ou_user"
+        values:
+          customer_document_number: "Should not be allowed"
+        expect_error:
+          type: "AccessError"
