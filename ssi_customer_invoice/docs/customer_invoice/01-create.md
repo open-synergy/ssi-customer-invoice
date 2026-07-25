@@ -10,8 +10,8 @@
 2. Click the **New** button. **(14.0: "Create")**
 3. Fill in the required fields:
    - **Type**: Select the customer invoice type. It determines the default Journal and
-     Receivable Account, and limits the Currency, Pricelist, and products allowed on this
-     document.
+     Receivable Account, and limits the Currency, Pricelist, and products allowed on
+     this document.
    - **Partner**: Select the customer this invoice is issued to.
    - **Date**: Accounting date of the document. Defaults to today. Change if needed.
    - **Date Due**: Due date of the receivable. Automatically filled if **Duration** is
