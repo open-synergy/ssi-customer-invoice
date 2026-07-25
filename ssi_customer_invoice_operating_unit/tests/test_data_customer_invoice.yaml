@@ -226,6 +226,7 @@ scenarios:
         values:
           name: "Test Customer Invoice OU B"
           code: "EVAL: 'CIOUB%d' % env['operating.unit'].search_count([])"
+          partner_id: "REC: customer.id"
 
       - step: "Create a journal restricted to the second operating unit"
         action: "create"
