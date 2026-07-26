@@ -430,6 +430,23 @@ class CustomerInvoice(models.Model):
 
         self._post_standard_move()  # Mixin
 
+    # I3a. Override: Add Partner to Standard Move Header
+    def _prepare_standard_move(self):
+        """Add the document partner to the ``account.move`` header.
+
+        Extends the ``mixin.account_move`` values (``name``,
+        ``journal_id``, ``date``) with ``partner_id``, reusing the
+        existing ``_partner_id_field_name`` attribute already consumed
+        by ``mixin.account_move_single_line`` for the receivable line,
+        so the generated ``account.move`` carries the same partner as
+        this document.
+
+        :return: dict of ``account.move`` values
+        """
+        res = super()._prepare_standard_move()
+        res["partner_id"] = getattr(self, self._partner_id_field_name).id
+        return res
+
     @ssi_decorator.post_open_action()
     def _20_skip_open(self):
         self.ensure_one()
