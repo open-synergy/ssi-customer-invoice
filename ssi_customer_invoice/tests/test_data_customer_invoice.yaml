@@ -349,7 +349,8 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "The generated account.move header carries the same partner as the invoice"
+      - step:
+          "The generated account.move header carries the same partner as the invoice"
         action: "assert"
         target: "invoice"
         refresh: true
