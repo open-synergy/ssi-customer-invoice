@@ -300,6 +300,64 @@ scenarios:
             type: "value"
             expected: 2024-02-15
 
+  - name: "Opening the invoice sets partner_id on the generated account.move header"
+    steps:
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line so the invoice has something to post"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 90000.0
+
+      - step: "Confirm the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "The generated account.move header carries the same partner as the invoice"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          move_id.partner_id:
+            type: "m2o"
+            expected: "REC: customer"
+
   - name: "Done moves invoice from open to done"
     steps:
       - step: "Create customer invoice"
