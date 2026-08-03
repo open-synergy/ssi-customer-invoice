@@ -140,7 +140,7 @@ class CustomerInvoice(models.Model):
     pricelist_id = fields.Many2one(
         string="Pricelist",
         comodel_name="product.pricelist",
-        required=True,
+        required=False,
         readonly=True,
         states={"draft": [("readonly", False)]},
         ondelete="restrict",

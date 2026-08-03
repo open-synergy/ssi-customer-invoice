@@ -123,6 +123,35 @@ scenarios:
             type: "value"
             expected: "/"
 
+  - name: "Create customer invoice without pricelist_id succeeds"
+    steps:
+      - step: "Create customer invoice omitting pricelist_id"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice_no_pricelist"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Assert created in draft with pricelist_id left empty"
+        action: "assert"
+        target: "invoice_no_pricelist"
+        asserts:
+          id:
+            type: "value"
+            operator: "is_truthy"
+          state:
+            type: "value"
+            expected: "draft"
+          pricelist_id:
+            type: "value"
+            expected: false
+
   - name: "Onchange type_id fills journal and receivable account"
     steps:
       - step: "Set type_id on a new form"
