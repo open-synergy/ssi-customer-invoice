@@ -1,10 +1,10 @@
 # Activate Customer Invoice Type
 
-> **Module:** ssi_customer_invoice
-> **Model:** `customer_invoice_type`
-> **Menu:** Financial Accounting > Configuration > Customer Invoice Types
-> **Actor:** user in group *Customer Invoice Type*
-> **Active:** `false` → `true`
+> **Module:** ssi_customer_invoice\
+> **Model:** `customer_invoice_type`\
+> **Menu:** Financial Accounting > Configuration > Customer Invoice Types\
+> **Actor:** user in group `Customer Invoice Type`\
+> **Active:** `false` → `true`\
 > **Requires:** `04-deactivate`
 
 ## Pre-Condition

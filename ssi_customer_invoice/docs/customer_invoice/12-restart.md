@@ -1,10 +1,10 @@
 # Restart Customer Invoice
 
-> **Module:** ssi_customer_invoice
-> **Model:** `customer_invoice`
-> **Menu:** Financial Accounting > Account Receivable > Customer Invoice
-> **Actor:** user in group *Customer Invoice — Validator*
-> **State:** `cancel`/`reject` → `draft`
+> **Module:** ssi_customer_invoice\
+> **Model:** `customer_invoice`\
+> **Menu:** Financial Accounting > Account Receivable > Customer Invoice\
+> **Actor:** user in group `Customer Invoice / Validator`\
+> **State:** `cancel`/`reject` → `draft`\
 > **Requires:** `10-cancel`
 
 ## Pre-Condition

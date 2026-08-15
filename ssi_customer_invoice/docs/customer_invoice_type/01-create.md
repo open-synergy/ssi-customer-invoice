@@ -1,9 +1,9 @@
 # Create Customer Invoice Type
 
-> **Module:** ssi_customer_invoice
-> **Model:** `customer_invoice_type`
-> **Menu:** Financial Accounting > Configuration > Customer Invoice Types
-> **Actor:** user in group *Customer Invoice Type*
+> **Module:** ssi_customer_invoice\
+> **Model:** `customer_invoice_type`\
+> **Menu:** Financial Accounting > Configuration > Customer Invoice Types\
+> **Actor:** user in group `Customer Invoice Type`
 
 ## Pre-Condition
 
