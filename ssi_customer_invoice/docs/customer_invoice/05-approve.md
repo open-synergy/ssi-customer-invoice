@@ -1,5 +1,12 @@
 # Approve Customer Invoice
 
+> **Module:** ssi_customer_invoice\
+> **Model:** `customer_invoice`\
+> **Menu:** Financial Accounting > Account Receivable > Customer Invoice\
+> **Actor:** user in group `Customer Invoice / Validator`, registered as active approver\
+> **State:** `confirm` → `open`\
+> **Requires:** `04-confirm`
+
 ## Pre-Condition
 
 - Record is in **Waiting for Approval** status.

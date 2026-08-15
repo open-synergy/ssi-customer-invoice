@@ -11,7 +11,15 @@ from odoo.tests import tagged
 
 @tagged("post_install", "-at_install")
 class TestCustomerInvoiceType(YamlTransactionCase):
+    """Test the ``customer_invoice_type`` master data model.
+
+    Covers the YAML scenario plus the Python-pure test below that
+    asserts a database-level ``NOT NULL`` violation, which YAML's
+    ``expect_error`` cannot express.
+    """
+
     def test_customer_invoice_type(self):
+        """Run the ``customer_invoice_type`` create/activate YAML scenario."""
         self.run_yaml_scenario("test_data_customer_invoice_type.yaml")
 
     def test_create_without_journal_id_is_rejected(self):

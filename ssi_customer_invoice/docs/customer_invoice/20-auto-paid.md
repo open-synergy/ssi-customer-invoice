@@ -1,5 +1,12 @@
 # Auto Transition to Paid — Customer Invoice
 
+> **Module:** ssi_customer_invoice\
+> **Model:** `customer_invoice`\
+> **Menu:** Financial Accounting > Account Receivable > Customer Invoice\
+> **Actor:** system (`base.automation`), when the receivable move line becomes reconciled\
+> **State:** `open` → `done`\
+> **Requires:** `05-approve`
+
 ## Pre-Condition
 
 - Record is in **Unpaid** status.

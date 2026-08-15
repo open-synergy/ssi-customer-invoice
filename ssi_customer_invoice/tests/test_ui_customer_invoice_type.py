@@ -2,11 +2,11 @@
 # Copyright 2026 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo.tests import HttpCase, tagged
+from odoo.tests import HttpSavepointCase, tagged
 
 
 @tagged("post_install", "-at_install")
-class TestUiCustomerInvoiceType(HttpCase):
+class TestUiCustomerInvoiceType(HttpSavepointCase):
     """UI/UX tour tests for ``customer_invoice_type``.
 
     Every ``test_*`` method below runs the tour pairing with the IK file
@@ -19,6 +19,13 @@ class TestUiCustomerInvoiceType(HttpCase):
 
     @classmethod
     def setUpClass(cls):
+        """Prepare Pre-Condition data shared by every tour in this class.
+
+        Creates the accounting master data (journal, receivable
+        account) and one ``customer_invoice_type`` record per tour
+        that needs a record already in a given state
+        (edit/delete/deactivate/activate).
+        """
         super().setUpClass()
 
         receivable_acc_type = cls.env.ref("account.data_account_type_receivable")

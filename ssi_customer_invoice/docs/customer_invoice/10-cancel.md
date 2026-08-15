@@ -1,5 +1,12 @@
 # Cancel Customer Invoice
 
+> **Module:** ssi_customer_invoice\
+> **Model:** `customer_invoice`\
+> **Menu:** Financial Accounting > Account Receivable > Customer Invoice\
+> **Actor:** user in group `Customer Invoice / Validator`\
+> **State:** `draft`/`confirm`/`open` → `cancel`\
+> **Requires:** `01-create`
+
 ## Pre-Condition
 
 - Record is in **Draft**, **Waiting for Approval**, or **Unpaid** status.

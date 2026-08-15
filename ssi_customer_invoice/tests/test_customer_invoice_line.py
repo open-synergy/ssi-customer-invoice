@@ -11,10 +11,26 @@ from odoo.tools import mute_logger
 
 @tagged("post_install", "-at_install")
 class TestCustomerInvoiceLine(YamlTransactionCase):
+    """Test the ``customer_invoice.line`` model create/compute flow.
+
+    Covers the YAML scenario plus the Python-pure test below that
+    asserts float-exact monetary amounts across untaxed and taxed
+    lines, which the YAML DSL cannot express.
+    """
+
     def test_customer_invoice_line(self):
+        """Run the ``customer_invoice.line`` create/compute YAML scenario."""
         self.run_yaml_scenario("test_data_customer_invoice_line.yaml")
 
     def _create_invoice(self):
+        """Create a bare ``customer_invoice`` header for line fixtures.
+
+        Shared fixture for the P2/P5 python-pure tests below. Built
+        fresh here (not taken from the YAML registry, which only
+        lives during ``run_yaml_scenario``).
+
+        :return: tuple of ``(customer_invoice, account.account)``
+        """
         receivable_acc_type = self.env.ref("account.data_account_type_receivable")
         income_acc_type = self.env.ref("account.data_account_type_revenue")
         account = self.env["account.account"].create(

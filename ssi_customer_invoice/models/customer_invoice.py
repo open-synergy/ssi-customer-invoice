@@ -307,6 +307,12 @@ class CustomerInvoice(models.Model):
     # G. Compute Methods
     @api.depends("type_id")
     def _compute_allowed_currency_ids(self):
+        """Compute the currencies selectable on this document.
+
+        Delegates to the many2one configurator, resolving the
+        selection method/manual list/domain/Python code configured on
+        ``type_id.currency_*``. Empty when ``type_id`` is not set.
+        """
         for record in self:
             result = False
             if record.type_id:
@@ -321,6 +327,12 @@ class CustomerInvoice(models.Model):
 
     @api.depends("type_id")
     def _compute_allowed_pricelist_ids(self):
+        """Compute the pricelists selectable on this document.
+
+        Delegates to the many2one configurator, resolving the
+        selection method/manual list/domain/Python code configured on
+        ``type_id.pricelist_*``. Empty when ``type_id`` is not set.
+        """
         for record in self:
             result = False
             if record.type_id:
@@ -335,6 +347,12 @@ class CustomerInvoice(models.Model):
 
     @api.depends("type_id")
     def _compute_allowed_product_ids(self):
+        """Compute the products selectable on this document's lines.
+
+        Delegates to the many2one configurator, resolving the
+        selection method/manual list/domain/Python code configured on
+        ``type_id.product_*``. Empty when ``type_id`` is not set.
+        """
         for record in self:
             result = False
             if record.type_id:
@@ -352,6 +370,12 @@ class CustomerInvoice(models.Model):
         "tax_ids.tax_amount",
     )
     def _compute_amount(self):
+        """Compute the untaxed, tax, and total amounts of this document.
+
+        ``amount_untaxed`` sums ``price_subtotal`` of every detail
+        line; ``amount_tax`` sums ``tax_amount`` of every tax line;
+        ``amount_total`` is their sum.
+        """
         for record in self:
             amount_untaxed = sum(record.line_ids.mapped("price_subtotal"))
             amount_tax = sum(record.tax_ids.mapped("tax_amount"))
@@ -365,6 +389,12 @@ class CustomerInvoice(models.Model):
         "amount_total",
     )
     def _compute_realized(self):
+        """Compute the realized and residual amounts of this document.
+
+        Derived from ``receivable_move_line_id``'s residual amount in
+        document currency; both stay zero when there is no receivable
+        journal item yet (e.g. document without detail lines).
+        """
         for record in self:
             amount_realized = 0.0
             amount_residual = 0.0
@@ -393,22 +423,52 @@ class CustomerInvoice(models.Model):
 
     # I. Action Methods
     def action_compute_tax(self):
+        """Recompute the tax lines from the current detail lines.
+
+        User-triggered button available while the document is still
+        editable. Runs with ``sudo()`` so the recomputation is not
+        blocked by tax line access rights.
+        """
         for record in self.sudo():
             record._compute_tax()
 
     def _compute_tax(self):
+        """Recompute the standard tax lines of this document.
+
+        Thin wrapper around ``mixin.account_move``'s
+        ``_recompute_standard_tax`` so both the button
+        (``action_compute_tax``) and the pre-confirm hook
+        (``_01_compute_tax``) share the same implementation.
+        """
         self.ensure_one()
         self._recompute_standard_tax()
 
     # I2. Pre-confirm Hook: Recompute Tax
     @ssi_decorator.pre_confirm_action()
     def _01_compute_tax(self):
+        """Recompute the tax lines before the document is confirmed.
+
+        Runs on the ``pre_confirm_action`` slot, i.e. right before the
+        document leaves ``draft`` for ``confirm``, so the tax lines
+        reflect the final detail lines even if the user never clicked
+        ``action_compute_tax`` manually.
+        """
         self.ensure_one()
         self._recompute_standard_tax()
 
     # I3. Post-open Hooks: Create Accounting Entry / Skip Straight to Done
     @ssi_decorator.post_open_action()
     def _10_create_accounting_entry(self):
+        """Create the accounting entry when the document is opened.
+
+        Runs on the ``post_open_action`` slot, i.e. right after the
+        document transitions to ``open``. Skipped when there are no
+        detail lines (nothing to invoice) or when ``move_id`` is
+        already set (idempotent on repeated open). Creates the
+        ``account.move`` header, the receivable journal item on the
+        header, one journal item per detail line and per tax line,
+        then posts the move.
+        """
         self.ensure_one()
 
         if not self.line_ids or self.move_id:
@@ -449,6 +509,14 @@ class CustomerInvoice(models.Model):
 
     @ssi_decorator.post_open_action()
     def _20_skip_open(self):
+        """Skip straight from ``open`` to ``done`` when unbilled.
+
+        Runs on the ``post_open_action`` slot, after
+        ``_10_create_accounting_entry``. Documents without detail
+        lines never get an accounting entry (``move_id`` stays
+        empty), so there is nothing to reconcile before moving on to
+        ``done``.
+        """
         self.ensure_one()
         if not self.move_id:
             self.action_done()
@@ -456,6 +524,12 @@ class CustomerInvoice(models.Model):
     # I4. Post-cancel Hook: Delete Accounting Entry
     @ssi_decorator.post_cancel_action()
     def _30_delete_accounting_entry(self):
+        """Delete the accounting entry when the document is cancelled.
+
+        Runs on the ``post_cancel_action`` slot, i.e. right after the
+        document transitions to ``cancel``, reverting the accounting
+        entry created by ``_10_create_accounting_entry``.
+        """
         self.ensure_one()
         self._delete_standard_move()  # Mixin
 
