@@ -11,6 +11,12 @@ on the document, propagated to the accounting entry it generates, guarded by a
 journal/operating unit consistency check, and scoped by a dedicated record rule.
 
 
+Work Instruction
+================
+
+* `Customer Invoice <docs/customer_invoice/index.html>`_
+
+
 Bug Tracker
 ===========
 
