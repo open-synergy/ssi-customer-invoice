@@ -11,7 +11,15 @@ from odoo.tools import mute_logger
 
 @tagged("post_install", "-at_install")
 class TestCustomerInvoice(YamlTransactionCase):
+    """Test the ``customer_invoice`` model create/state/amount flow.
+
+    Covers the YAML scenario plus the Python-pure tests below that
+    assert accounting entry line count/order and float-exact amounts,
+    which the YAML DSL cannot express.
+    """
+
     def test_customer_invoice(self):
+        """Run the ``customer_invoice`` create/compute YAML scenario."""
         self.run_yaml_scenario("test_data_customer_invoice.yaml")
 
     def _create_invoice_with_lines(self):

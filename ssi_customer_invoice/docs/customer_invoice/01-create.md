@@ -1,5 +1,11 @@
 # Create Customer Invoice
 
+> **Module:** ssi_customer_invoice
+> **Model:** `customer_invoice`
+> **Menu:** Financial Accounting > Account Receivable > Customer Invoice
+> **Actor:** user in group *Customer Invoice — User*
+> **State:** `—` → `draft`
+
 ## Pre-Condition
 
 - None.
