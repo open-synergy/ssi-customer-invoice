@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[ssi_customer_invoice](ssi_customer_invoice/) | 14.0.1.0.2 |  | Customer Invoice
+[ssi_customer_invoice](ssi_customer_invoice/) | 14.0.1.0.3 |  | Customer Invoice
 [ssi_customer_invoice_operating_unit](ssi_customer_invoice_operating_unit/) | 14.0.1.0.0 |  | Customer Invoice + Operating Unit
 
 [//]: # (end addons)
