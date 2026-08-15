@@ -17,11 +17,13 @@
         "ssi_customer_invoice",
         "ssi_operating_unit_mixin",
         "ssi_financial_accounting_operating_unit",
+        "web_tour",
     ],
     "data": [
         "security/res_group/customer_invoice.xml",
         "security/ir_rule/customer_invoice.xml",
-        "view/customer_invoice.xml",
+        "views/customer_invoice.xml",
+        "views/assets.xml",
     ],
     "demo": [],
 }
