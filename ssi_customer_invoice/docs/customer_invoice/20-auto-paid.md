@@ -21,6 +21,10 @@ reconciled — for example, after a customer payment is matched/ reconciled agai
 invoice's receivable move line, so that the **Realized** field changes from unchecked to
 checked.
 
+There is no manual path to **Paid** on this document: no **Done** button is rendered on
+the form or the list view for any user, and the full reconciliation of the receivable
+journal item is the only trigger of this transition.
+
 ## Post-Condition
 
 - Status changes to **Paid**.

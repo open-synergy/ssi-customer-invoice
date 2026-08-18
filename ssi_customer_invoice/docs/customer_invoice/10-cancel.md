@@ -9,8 +9,11 @@
 
 ## Pre-Condition
 
-- Record is in **Draft**, **Waiting for Approval**, or **Unpaid** status.
-- User has _Can Cancel_ access right (**Validator** access group).
+- **Record:** Record is in **Draft**, **Waiting for Approval**, or **Unpaid** status.
+- **Record:** The record has not received any payment yet — its **Realized Amount** is
+  zero. Once a customer payment is reconciled against the receivable journal item of
+  this document, the **Cancel** button is no longer available.
+- **Access:** User has _Can Cancel_ access right (**Validator** access group).
 
 ## Flow
 
