@@ -4,7 +4,7 @@
 
 {
     "name": "Customer Invoice",
-    "version": "14.0.1.0.3",
+    "version": "14.0.1.0.4",
     "website": "https://simetri-sinergi.id",
     "author": "OpenSynergy Indonesia, PT. Simetri Sinergi Indonesia",
     "contributors": [
