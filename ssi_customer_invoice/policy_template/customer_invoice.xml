@@ -109,7 +109,9 @@ if env.user.id in document.active_approver_user_ids.ids:
     <field name="computation_method">use_group</field>
     <field name="group_ids" eval="[(6,0,[ref('customer_invoice_validator_group')])]" />
     <field name="restrict_additional" eval="1" />
-    <field name="additional_python_code">result = document.amount_realized &lt;= 0.0</field>
+    <field
+            name="additional_python_code"
+        >result = document.amount_realized &lt;= 0.0</field>
 </record>
 
 <record id="policy_template_customer_invoice_restart" model="policy.template_detail">
