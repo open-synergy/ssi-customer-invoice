@@ -7,13 +7,13 @@
     <field name="action_server_id" ref="customer_invoice_action_done" />
     <field name="trigger">on_write</field>
     <field name="filter_pre_domain">[('realized','=',False)]</field>
-    <field name="filter_domain">[('realized','=',True)]</field>
+    <field name="filter_domain">[('realized','=',True),('state','=','open')]</field>
 </record>
 
 <record id="customer_invoice_done_2_open" model="base.automation">
     <field name="action_server_id" ref="customer_invoice_action_open" />
     <field name="trigger">on_write</field>
     <field name="filter_pre_domain">[('realized','=',True)]</field>
-    <field name="filter_domain">[('realized','=',False)]</field>
+    <field name="filter_domain">[('realized','=',False),('state','=','done')]</field>
 </record>
 </odoo>

@@ -388,7 +388,9 @@ scenarios:
             type: "m2o"
             expected: "REC: customer"
 
-  - name: "Done moves invoice from open to done"
+  - name:
+      "Done is rejected on an open invoice whose receivable journal item is not
+      reconciled yet"
     steps:
       - step: "Create customer invoice"
         action: "create"
@@ -437,16 +439,34 @@ scenarios:
             type: "value"
             expected: "open"
 
-      - step: "Finish the invoice"
+      - step: "The invoice carries an unreconciled journal entry"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          move_id:
+            type: "value"
+            operator: "is_truthy"
+          realized:
+            type: "value"
+            expected: false
+
+      - step: "Finishing the invoice by hand must be rejected"
         action: "call"
         target: "invoice"
         method: "action_done"
         as_user: "base.user_admin"
+        expect_error:
+          type: "UserError"
+
+      - step: "The invoice is still unpaid"
+        action: "assert"
+        target: "invoice"
         refresh: true
         asserts:
           state:
             type: "value"
-            expected: "done"
+            expected: "open"
 
   - name: "Restart moves invoice from reject back to draft"
     steps:
@@ -1151,3 +1171,244 @@ scenarios:
         expect_error:
           type: "UserError"
           message_contains: "state is not draft"
+
+  - name: "done_ok stays False on an unpaid invoice even for a User group member"
+    steps:
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line so the invoice stays open after approval"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 130000.0
+
+      - step: "Confirm the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      # customer_invoice_all_group is needed on top of the workflow group:
+      # the ir.rule bound to base.group_user only exposes invoices the user is
+      # responsible for, and this fixture belongs to the superuser.
+      - step: "Create an internal user holding the customer invoice User group"
+        action: "create"
+        model: "res.users"
+        save_as: "invoice_user"
+        values:
+          name: "Customer Invoice Workflow User"
+          login:
+            "EVAL: 'customer_invoice_workflow_user_%d' %
+            env['res.users'].search_count([])"
+          groups_id:
+            - - 6
+              - 0
+              - - "REF: base.group_user"
+                - "REF: ssi_customer_invoice.customer_invoice_user_group"
+                - "REF: ssi_customer_invoice.customer_invoice_all_group"
+
+      - step: "done_ok is False for that user while the invoice is unpaid"
+        action: "assert"
+        target: "invoice"
+        as_user: "invoice_user"
+        refresh: true
+        asserts:
+          done_ok:
+            type: "value"
+            expected: false
+
+  - name:
+      "An open invoice that already received a partial payment can no longer be
+      cancelled"
+    steps:
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 400000.0
+
+      - step: "Confirm the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve the invoice and post the journal entry"
+        action: "call"
+        target: "invoice"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "Get the invoice's receivable journal item"
+        action: "search"
+        model: "account.move.line"
+        domain:
+          - ["id", "=", "REC: invoice.receivable_move_line_id.id"]
+        save_as: "receivable_ml"
+        expect_count: 1
+
+      - step: "Create a manual payment entry settling only a part of the invoice"
+        action: "create"
+        model: "account.move"
+        save_as: "payment_move"
+        values:
+          journal_id: "REC: general_journal.id"
+          date: 2024-02-01
+          line_ids:
+            - - 0
+              - 0
+              - name: "Partial payment"
+                account_id: "REC: account.id"
+                partner_id: "REC: customer.id"
+                credit: 100000.0
+            - - 0
+              - 0
+              - name: "Partial payment contra"
+                account_id: "REC: contra_account.id"
+                debit: 100000.0
+
+      - step: "Post the payment entry"
+        action: "call"
+        target: "payment_move"
+        method: "action_post"
+
+      - step: "Get the payment's receivable-side journal item"
+        action: "search"
+        model: "account.move.line"
+        domain:
+          - ["move_id", "=", "REC: payment_move.id"]
+          - ["account_id", "=", "REC: account.id"]
+        save_as: "payment_ml"
+        expect_count: 1
+
+      - step: "Combine both journal items to reconcile"
+        action: "search"
+        model: "account.move.line"
+        domain:
+          - ["id", "in", ["REC: receivable_ml.id", "REC: payment_ml.id"]]
+        save_as: "to_reconcile"
+        expect_count: 2
+
+      - step: "Partially reconcile the receivable line against the payment"
+        action: "call"
+        target: "to_reconcile"
+        method: "reconcile"
+
+      - step: "The invoice stays unpaid but has already realized part of its total"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+          realized:
+            type: "value"
+            expected: false
+          amount_realized:
+            type: "value"
+            operator: "gt"
+            expected: 0.0
+
+      - step: "cancel_ok is False for the validator once a payment was received"
+        action: "assert"
+        target: "invoice"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          cancel_ok:
+            type: "value"
+            expected: false
+
+      - step: "Create a cancel reason"
+        action: "create"
+        model: "base.cancel_reason"
+        save_as: "reason"
+        values:
+          name: "Test Customer Invoice Cancel Reason (partially paid)"
+          code: "/"
+
+      - step: "Cancelling through the reason wizard is rejected"
+        action: "wizard"
+        model: "base.select_cancel_reason"
+        target: "invoice"
+        as_user: "base.user_admin"
+        values:
+          cancel_reason_id: "REC: reason"
+        method: "action_confirm"
+        expect_error:
+          type: "UserError"
+
+      - step: "The invoice is still unpaid and keeps its journal entry"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+          move_id:
+            type: "value"
+            operator: "is_truthy"

@@ -2,7 +2,8 @@
 # Copyright 2026 PT. Simetri Sinergi Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.ssi_decorator import ssi_decorator
 
@@ -45,6 +46,12 @@ class CustomerInvoice(models.Model):
     # B. Atribut Auto-insert View Element
     _automatically_insert_view_element = True
     _automatically_insert_multiple_approval_page = True
+    # ``open`` -> ``done`` is driven by the reconciliation of the receivable
+    # journal item (base.automation ``customer_invoice_open_2_done``), never
+    # by a user. Both attributes below keep the Done button out of the form
+    # and tree headers and keep ``done_ok`` off the Policy page.
+    _automatically_insert_done_button = False
+    _automatically_insert_done_policy_fields = False
 
     # C. Atribut Form View
     _statusbar_visible_label = "draft,confirm,open,done"
@@ -56,7 +63,6 @@ class CustomerInvoice(models.Model):
         "restart_approval_ok",
         "cancel_ok",
         "restart_ok",
-        "done_ok",
         "manual_number_ok",
     ]
     _header_button_order = [
@@ -532,6 +538,69 @@ class CustomerInvoice(models.Model):
         """
         self.ensure_one()
         self._delete_standard_move()  # Mixin
+
+    # I5. Pre-cancel Hook: Reject Cancellation of a Paid Document
+    @ssi_decorator.pre_cancel_check()
+    def _40_check_no_payment(self):
+        """Reject the cancellation of a document already partly paid.
+
+        Runs on the ``pre_cancel_check`` slot, i.e. before the document
+        leaves its current state for ``cancel``. Cancelling deletes the
+        accounting entry (``_30_delete_accounting_entry``), which would
+        strip the receivable journal item a customer payment is already
+        reconciled against, so any settled amount forbids cancelling.
+
+        :raises UserError: when ``amount_realized`` is above zero
+        """
+        self.ensure_one()
+
+        if self.amount_realized > 0.0:
+            error_message = """
+                Document Type: %s
+                Context: Cancel document
+                Database ID: %s
+                Problem: Document has already received payment
+                Solution: Undo the reconciliation of the receivable journal
+                item before cancelling this document
+                """ % (
+                self._description.lower(),
+                self.id,
+            )
+            raise UserError(_(error_message))
+
+    # I6. Pre-done Hook: Only the Machine May Finish the Document
+    @ssi_decorator.pre_done_check()
+    def _50_check_realized(self):
+        """Reject finishing a document that is not fully reconciled.
+
+        Runs on the ``pre_done_check`` slot, i.e. before the document
+        moves to ``done``. This replaces the policy guard dropped along
+        with the Done button (``_automatically_insert_done_button`` is
+        ``False``, so ``_check_done_policy`` returns early): ``done`` is
+        reachable only from ``open``, and only once the receivable
+        journal item is reconciled -- or when there is no accounting
+        entry at all, which is the ``_20_skip_open`` path for documents
+        without detail lines.
+
+        :raises UserError: when the document is not in ``open``, or has
+            an accounting entry that is not fully reconciled yet
+        """
+        self.ensure_one()
+
+        if self.state != "open" or (self.move_id and not self.realized):
+            error_message = """
+                Document Type: %s
+                Context: Finish document
+                Database ID: %s
+                Problem: Document is not an unpaid document whose receivable
+                journal item has been fully reconciled
+                Solution: Reconcile the receivable journal item of this
+                document; the transition to Paid then happens automatically
+                """ % (
+                self._description.lower(),
+                self.id,
+            )
+            raise UserError(_(error_message))
 
     # J. Decorator: Insert Form Element
     @ssi_decorator.insert_on_form_view()

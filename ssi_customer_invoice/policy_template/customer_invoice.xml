@@ -90,23 +90,10 @@ if env.user.id in document.active_approver_user_ids.ids:
         >result = not document.approval_template_id</field>
 </record>
 
-<record id="policy_template_customer_invoice_done" model="policy.template_detail">
-    <field name="template_id" ref="policy_template_customer_invoice" />
-    <field
-            name="field_id"
-            search="[('model_id.model','=','customer_invoice'),('name','=','done_ok')]"
-        />
-    <field name="restrict_state" eval="1" />
-    <field
-            name="state_ids"
-            search="[('field_id.model_id.model','=','customer_invoice'),('value','=','open')]"
-        />
-    <field name="restrict_user" eval="1" />
-    <field name="computation_method">use_group</field>
-    <field name="group_ids" eval="[(6,0,[ref('customer_invoice_user_group')])]" />
-    <field name="restrict_additional" eval="0" />
-</record>
-
+<!-- No `done_ok` template detail on purpose: `open` -> `done` is driven by the
+     reconciliation of the receivable journal item (base.automation
+     `customer_invoice_open_2_done`), never by a user, so `done_ok` must stay
+     False for everybody. -->
 <record id="policy_template_customer_invoice_cancel" model="policy.template_detail">
     <field name="template_id" ref="policy_template_customer_invoice" />
     <field
@@ -121,7 +108,8 @@ if env.user.id in document.active_approver_user_ids.ids:
     <field name="restrict_user" eval="1" />
     <field name="computation_method">use_group</field>
     <field name="group_ids" eval="[(6,0,[ref('customer_invoice_validator_group')])]" />
-    <field name="restrict_additional" eval="0" />
+    <field name="restrict_additional" eval="1" />
+    <field name="additional_python_code">result = document.amount_realized &lt;= 0.0</field>
 </record>
 
 <record id="policy_template_customer_invoice_restart" model="policy.template_detail">
