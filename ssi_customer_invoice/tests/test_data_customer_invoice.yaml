@@ -1412,3 +1412,398 @@ scenarios:
           move_id:
             type: "value"
             operator: "is_truthy"
+
+  - name: "Analytic accounts of the detail lines are collected on the header"
+    steps:
+      - step: "Create analytic account A"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_a"
+        values:
+          name: "Test Customer Invoice Analytic A"
+
+      - step: "Create analytic account B"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_b"
+        values:
+          name: "Test Customer Invoice Analytic B"
+
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line carrying analytic account A"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_a"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line A"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_a.id"
+          uom_quantity: 1
+          price_unit: 100000.0
+
+      - step: "Create a detail line carrying analytic account B"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_b"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line B"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_b.id"
+          uom_quantity: 1
+          price_unit: 200000.0
+
+      - step: "The header carries exactly the analytic accounts A and B"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          analytic_account_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: analytic_a"
+              - "REC: analytic_b"
+
+  - name: "Two detail lines sharing one analytic account yield a single header entry"
+    steps:
+      - step: "Create analytic account A"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_a"
+        values:
+          name: "Test Customer Invoice Analytic A (shared)"
+
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create the first detail line on analytic account A"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_1"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line 1"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_a.id"
+          uom_quantity: 1
+          price_unit: 100000.0
+
+      - step: "Create the second detail line on the same analytic account A"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_2"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line 2"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_a.id"
+          uom_quantity: 2
+          price_unit: 50000.0
+
+      - step: "The header carries analytic account A exactly once"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          analytic_account_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 1
+
+      - step: "And that single entry is analytic account A"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          analytic_account_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: analytic_a"
+
+  - name:
+      "The header analytic accounts are stored, so the document is searchable by them"
+    steps:
+      - step: "Create analytic account A"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_a"
+        values:
+          name: "Test Customer Invoice Analytic A (searchable)"
+
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line carrying analytic account A"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_a.id"
+          uom_quantity: 1
+          price_unit: 300000.0
+
+      - step: "Searching on analytic_account_ids finds the document"
+        action: "search"
+        model: "customer_invoice"
+        domain:
+          - ["analytic_account_ids", "in", ["REC: analytic_a.id"]]
+        save_as: "found_by_analytic"
+        expect_count: 1
+
+      - step: "And the document found is the one just created"
+        action: "assert"
+        target: "found_by_analytic"
+        asserts:
+          id:
+            type: "value"
+            expected: "REC: invoice.id"
+
+  - name: "Changing a line's analytic account updates the header analytic accounts"
+    steps:
+      - step: "Create analytic account A"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_a"
+        values:
+          name: "Test Customer Invoice Analytic A (rewritten)"
+
+      - step: "Create analytic account B"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_b"
+        values:
+          name: "Test Customer Invoice Analytic B (rewritten)"
+
+      - step: "Create analytic account C"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_c"
+        values:
+          name: "Test Customer Invoice Analytic C (rewritten)"
+
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create the first detail line on analytic account A"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_1"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line 1"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_a.id"
+          uom_quantity: 1
+          price_unit: 100000.0
+
+      - step: "Create the second detail line on analytic account B"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_2"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line 2"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_b.id"
+          uom_quantity: 1
+          price_unit: 200000.0
+
+      - step: "The header starts out with analytic accounts A and B"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          analytic_account_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: analytic_a"
+              - "REC: analytic_b"
+
+      - step: "Move the first line from analytic account A to C"
+        action: "write"
+        target: "line_1"
+        values:
+          analytic_account_id: "REC: analytic_c.id"
+
+      - step: "The header now carries analytic accounts C and B"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          analytic_account_ids:
+            type: "m2m"
+            check: "exact"
+            expected_records:
+              - "REC: analytic_c"
+              - "REC: analytic_b"
+
+  - name:
+      "A document whose lines carry no analytic account has no header analytic accounts"
+    steps:
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line without any analytic account"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_1"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line 1"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 100000.0
+
+      - step: "Create a second detail line without any analytic account"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line_2"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line 2"
+          account_id: "REC: line_account.id"
+          uom_quantity: 1
+          price_unit: 50000.0
+
+      - step: "The header analytic accounts stay empty, with no blank member"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          analytic_account_ids:
+            type: "m2m"
+            check: "count"
+            expected_count: 0
+
+  - name: "The receivable journal item is created without an analytic account"
+    steps:
+      - step: "Create analytic account A"
+        action: "create"
+        model: "account.analytic.account"
+        save_as: "analytic_a"
+        values:
+          name: "Test Customer Invoice Analytic A (receivable)"
+
+      - step: "Create customer invoice"
+        action: "create"
+        model: "customer_invoice"
+        save_as: "invoice"
+        values:
+          type_id: "REC: type.id"
+          partner_id: "REC: customer.id"
+          date: 2024-01-15
+          date_due: 2024-02-15
+          currency_id: "REF: base.USD"
+          pricelist_id: "REF: product.list0"
+          journal_id: "REC: journal.id"
+          receivable_account_id: "REC: account.id"
+
+      - step: "Create a detail line carrying analytic account A"
+        action: "create"
+        model: "customer_invoice.line"
+        save_as: "line"
+        values:
+          customer_invoice_id: "REC: invoice.id"
+          name: "Line"
+          account_id: "REC: line_account.id"
+          analytic_account_id: "REC: analytic_a.id"
+          uom_quantity: 1
+          price_unit: 350000.0
+
+      - step: "Confirm the invoice"
+        action: "call"
+        target: "invoice"
+        method: "action_confirm"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "confirm"
+
+      - step: "Approve the invoice and post the journal entry"
+        action: "call"
+        target: "invoice"
+        method: "action_approve_approval"
+        as_user: "base.user_admin"
+        refresh: true
+        asserts:
+          state:
+            type: "value"
+            expected: "open"
+
+      - step: "The receivable journal item carries no analytic account"
+        action: "assert"
+        target: "invoice"
+        refresh: true
+        asserts:
+          receivable_move_line_id:
+            type: "value"
+            operator: "is_truthy"
+          receivable_move_line_id.analytic_account_id:
+            type: "value"
+            operator: "is_falsy"

@@ -33,7 +33,10 @@
                 <field name="type_id" optional="hide" />
                 <field name="date" />
                 <field name="date_due" />
+                <field name="amount_untaxed" sum="Untaxed Amount" />
+                <field name="amount_tax" sum="Tax" />
                 <field name="amount_total" sum="Total" />
+                <field name="amount_residual" sum="Residual Amount" />
             </xpath>
         </data>
     </field>
@@ -59,7 +62,7 @@
                 <field name="pricelist_id" />
                 <field name="journal_id" />
                 <field name="receivable_account_id" />
-                <field name="analytic_account_id" />
+                <field name="analytic_account_ids" widget="many2many_tags" />
             </xpath>
             <xpath expr="//page[1]" position="before">
                 <page name="detail" string="Detail">
@@ -143,6 +146,8 @@
                         <field name="amount_untaxed" />
                         <field name="amount_tax" />
                         <field name="amount_total" />
+                        <field name="amount_realized" />
+                        <field name="amount_residual" />
                     </group>
                 </page>
                 <page name="accounting" string="Accounting">
@@ -151,10 +156,6 @@
                             <field name="move_id" />
                             <field name="receivable_move_line_id" />
                             <field name="realized" />
-                        </group>
-                        <group name="accounting_1_2" colspan="1" col="2">
-                            <field name="amount_realized" />
-                            <field name="amount_residual" />
                         </group>
                     </group>
                 </page>

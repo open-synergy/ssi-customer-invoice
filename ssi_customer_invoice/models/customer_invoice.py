@@ -102,7 +102,10 @@ class CustomerInvoice(models.Model):
     _company_currency_id_field_name = "company_currency_id"
     _account_id_field_name = "receivable_account_id"
     _partner_id_field_name = "partner_id"
-    _analytic_account_id_field_name = "analytic_account_id"
+    # ``_analytic_account_id_field_name`` is deliberately left at the mixin
+    # default (``False``): the analytic account belongs to the detail lines,
+    # so only the income journal items carry one. The receivable journal item
+    # created here stays free of any analytic account.
     _amount_currency_field_name = "amount_total"
     _date_field_name = "date"
     _label_field_name = "name"
@@ -173,14 +176,18 @@ class CustomerInvoice(models.Model):
         help="Receivable account debited for the total amount owed by "
         "the customer when this document is posted.",
     )
-    analytic_account_id = fields.Many2one(
-        string="Analytic Account",
+    analytic_account_ids = fields.Many2many(
+        string="Analytic Accounts",
         comodel_name="account.analytic.account",
-        readonly=True,
-        states={"draft": [("readonly", False)]},
-        ondelete="restrict",
-        help="Analytic account used to track the cost of this document "
-        "for analytic reporting purposes.",
+        relation="rel_customer_invoice_2_analytic_account",
+        column1="customer_invoice_id",
+        column2="analytic_account_id",
+        compute="_compute_analytic_account_ids",
+        store=True,
+        compute_sudo=True,
+        help="Analytic accounts used by the detail lines of this document. "
+        "Filled automatically from the detail lines and never entered "
+        "directly on the header.",
     )
     customer_document_number = fields.Char(
         string="Customer Document Number",
@@ -370,6 +377,21 @@ class CustomerInvoice(models.Model):
                     python_code=record.type_id.product_python_code,
                 )
             record.allowed_product_ids = result
+
+    @api.depends(
+        "line_ids.analytic_account_id",
+    )
+    def _compute_analytic_account_ids(self):
+        """Compute the analytic accounts used by this document's lines.
+
+        Collects ``analytic_account_id`` of every detail line into a
+        duplicate-free set; lines without an analytic account
+        contribute nothing, so the result is empty when no line carries
+        one.
+        """
+        for record in self:
+            result = record.line_ids.mapped("analytic_account_id")
+            record.analytic_account_ids = result
 
     @api.depends(
         "line_ids.price_subtotal",
