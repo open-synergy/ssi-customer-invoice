@@ -1547,7 +1547,8 @@ scenarios:
             expected_records:
               - "REC: analytic_a"
 
-  - name: "The header analytic accounts are stored, so the document is searchable by them"
+  - name:
+      "The header analytic accounts are stored, so the document is searchable by them"
     steps:
       - step: "Create analytic account A"
         action: "create"
@@ -1689,7 +1690,8 @@ scenarios:
               - "REC: analytic_c"
               - "REC: analytic_b"
 
-  - name: "A document whose lines carry no analytic account has no header analytic accounts"
+  - name:
+      "A document whose lines carry no analytic account has no header analytic accounts"
     steps:
       - step: "Create customer invoice"
         action: "create"
