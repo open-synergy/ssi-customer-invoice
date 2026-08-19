@@ -147,17 +147,22 @@ msgid "Allowed Usages"
 msgstr ""
 
 #. module: ssi_customer_invoice
-#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__analytic_account_id
 #: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__analytic_account_id
 #: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__analytic_account_id
 msgid "Analytic Account"
 msgstr ""
 
 #. module: ssi_customer_invoice
-#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__analytic_account_id
+#: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__analytic_account_ids
+msgid "Analytic Accounts"
+msgstr ""
+
+#. module: ssi_customer_invoice
+#: model:ir.model.fields,help:ssi_customer_invoice.field_customer_invoice__analytic_account_ids
 msgid ""
-"Analytic account used to track the cost of this document for analytic "
-"reporting purposes."
+"Analytic accounts used by the detail lines of this document. Filled "
+"automatically from the detail lines and never entered directly on the "
+"header."
 msgstr ""
 
 #. module: ssi_customer_invoice
@@ -1054,6 +1059,7 @@ msgstr ""
 
 #. module: ssi_customer_invoice
 #: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_residual
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_tree
 msgid "Residual Amount"
 msgstr ""
 
@@ -1156,6 +1162,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_tax
 #: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_line__price_tax
 #: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice_tax__tax_id
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_tree
 msgid "Tax"
 msgstr ""
 
@@ -1241,6 +1248,7 @@ msgstr ""
 #. module: ssi_customer_invoice
 #: model:ir.model.fields,field_description:ssi_customer_invoice.field_customer_invoice__amount_untaxed
 #: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_form
+#: model_terms:ir.ui.view,arch_db:ssi_customer_invoice.customer_invoice_view_tree
 msgid "Untaxed Amount"
 msgstr ""
 
