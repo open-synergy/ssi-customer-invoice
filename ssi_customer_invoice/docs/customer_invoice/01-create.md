@@ -33,8 +33,6 @@
      by the customer (e.g. their own purchase order number).
    - **Duration**: Select a predefined duration to automatically calculate **Date Due**
      from **Date**.
-   - **Analytic Account**: Select the analytic account used to track the cost of this
-     document.
 5. On the **Detail** tab, add lines describing the products/services being invoiced.
    Repeat the following steps as many times as needed:
    - Click **Add a line**.
@@ -45,7 +43,9 @@
        **Tax(es)** for this line.
      - **Account**: Automatically filled from **Product** and **Usage**. Change if
        needed.
-     - **Analytic Account**: Optionally select the analytic account for this line.
+     - **Analytic Account**: Optionally select the analytic account used to track the
+       cost of this line. This is the only place an analytic account is entered; the
+       header field **Analytic Accounts** is filled from the values entered here.
      - **UoM**: Automatically filled from **Product**. Change if needed.
      - **Quantity**: Enter the quantity being invoiced.
      - **Price Unit**: Automatically filled from **Product**, **Pricelist**,
@@ -59,3 +59,5 @@
 - A new record is created in **Draft** status.
 - The document number is displayed as **/** until the record reaches the **Unpaid**
   status.
+- The **Analytic Accounts** field on the header shows every analytic account used by the
+  detail lines of the document. It cannot be filled in directly.
